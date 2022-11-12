@@ -7,6 +7,71 @@
     <title>Document</title>
 </head>
 <body>
+    <table border="1">
+        <tbody>
+
+        </tbody>
+    </table>
+    <br><br>
+    <button onclick="contar()">Contar</button>
+    <input type="text" name="" id="text">
+    <script>
+        let rows, columns;
+        do{
+            rows = parseInt(prompt('Introduce filas: '));
+            columns = parseInt(prompt('Introduce columnas:'));
+        } while(rows <=0 || columns <=0);
+        let tbody = document.querySelector('tbody');
+        for(let i = 0; i < rows; i++) {
+            let tr = document.createElement('tr');
+            for(let j = 0; j < columns; j++) {
+                let td = document.createElement('td');
+                let cellvalue = Math.floor(Math.random() * 2);
+                td.textContent = (cellvalue === 1) ? 'X' : '0';
+                td.setAttribute('onclick', 'change(this)');
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+        
+        function change(cell) {
+            if(cell.textContent === 'X') {
+                cell.textContent = '0';
+            } else {
+                cell.textContent = 'X';
+            }
+            deleteRow(cell);
+        }
+
+        function contar() {
+            let counter0 = 0;
+            let counterX = 0;
+            let cells = document.querySelectorAll('tr td');
+            let textInput = document.querySelector('#text');
+            [...cells].forEach(cell => {
+                if(cell.textContent === 'X') {
+                    counterX++;
+                } else {
+                    counter0++;
+                }
+            });
+            textInput.value = `Número de X: ${counterX}  y número de 0: ${counter0}`;
+        }
+        
+        function deleteRow(cell) {
+            let rows = document.querySelectorAll('tr');
+            [...rows].forEach(row => {
+                const first = row.firstElementChild.textContent;
+                const same = [...row.childNodes].every(child => child.textContent === first);
+                if(same) cell.parentElement.remove();
+            })
+        }
+                
+            
+        
+
+        
     
+    </script>
 </body>
 </html>
